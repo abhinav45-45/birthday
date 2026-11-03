@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Ammu💗🎉</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+  body { overflow: hidden; background: linear-gradient(135deg, #ff9a9e, #fecfef, #fec5eb); }
+  
+  .page {
+    width: 100vw; height: 100vh; display: none; 
+    justify-content: center; align-items: center; flex-direction: column;
+    text-align: center; padding: 20px; animation: fadeIn 1s ease;
+  }
+  .page.active { display: flex; }
+  @keyframes fadeIn { from {opacity:0; transform:scale(0.9);} to {opacity:1; transform:scale(1);} }
+
+  h1 { font-size: 2.5rem; color: #fff; text-shadow: 0 0 15px #ff4d6d; margin-bottom: 20px; }
+  h2 { font-size: 1.8rem; color: #fff; margin: 15px 0; }
+  p { font-size: 1.2rem; color: #fff; max-width: 600px; line-height: 1.6; }
+
+  /* Cake Animation */
+  .cake {
+    position: relative; width: 200px; height: 200px; margin: 30px auto;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-20px);} }
+  .layer { width: 200px; height: 60px; background: #ff6b81; border-radius: 10px; position: absolute; }
+  .layer2 { width: 160px; height: 50px; background: #ffa3b1; left: 20px; top: -50px; }
+  .layer3 { width: 120px; height: 40px; background: #ffd6e0; left: 40px; top: -90px; }
+  .candle { width: 10px; height: 40px; background: yellow; position: absolute; top: -130px; left: 95px; border-radius: 5px; }
+  .flame { width: 20px; height: 30px; background: radial-gradient(circle, #ffea00, #ff6f00); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; 
+    position: absolute; top: -160px; left: 90px; animation: flicker 0.5s infinite alternate; }
+  @keyframes flicker { from{transform:scale(1);} to{transform:scale(1.2);} }
+
+  /* Photo pages */
+  .photo-frame {
+    width: 80%; max-width: 400px; height: 70%; border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); overflow: hidden;
+    border: 8px solid #fff; background: #fff;
+  }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* Navigation buttons */
+  .btn {
+    position: fixed; bottom: 30px; padding: 12px 30px; border: none;
+    background: #fff; color: #ff4d6d; font-size: 1.1rem; font-weight: bold;
+    border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: 0.3s;
+  }
+  .btn:hover { transform: scale(1.1); background: #ff4d6d; color: #fff; }
+  .next { right: 30px; }
+  .prev { left: 30px; }
+  .confetti { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<!-- PAGE 1: WISHES + ANIMATED CAKE -->
+<div class="page active">
+  <h1>🎉 Happy Birthday To You! 🎉</h1>
+  <div class="cake">
+    <div class="layer"></div>
+    <div class="layer layer2"></div>
+    <div class="layer layer3"></div>
+    <div class="candle"></div>
+    <div class="flame"></div>
+  </div>
+  <h2>May all your dreams come true today!</h2>
+</div>
+
+<!-- PAGE 2: PHOTO 1 -->
+<div class="page">
+  <h2>Remember this cute smile? 😊</h2>
+  <div class="photo-frame">
+    <img src="1.jpeg" alt="Photo 1">
+  </div>
+</div>
+
+<!-- PAGE 3: PHOTO 2 -->
+<div class="page">
+  <h2>You look so cool! 😎</h2>
+  <div class="photo-frame">
+    <img src="2.jpeg" alt="Photo 2">
+  </div>
+</div>
+
+<!-- PAGE 4: PHOTO 3 -->
+<div class="page">
+  <h2>So elegant in green 💚</h2>
+  <div class="photo-frame">
+    <img src="3.jpeg" alt="Photo 3">
+  </div>
+</div>
+
+<!-- PAGE 5: PHOTO 4 -->
+<div class="page">
+  <h2>Growing beautiful every day ✨</h2>
+  <div class="photo-frame">
+    <img src="4.jpeg" alt="Photo 4">
+  </div>
+</div>
+
+<!-- PAGE 6: THANK YOU -->
+<div class="page">
+  <h1>Thank you my friend ❤️</h1>
+  <p>Be happy always<br>
+  All the best for your future<br><br>
+  I'm so lucky to have you in my life!</p>
+  <h2>🎊 Enjoy your special day 🎊</h2>
+</div>
+
+<button class="btn prev" onclick="prevPage()">⬅️ Prev</button>
+<button class="btn next" onclick="nextPage()">Next ➡️</button>
+<canvas class="confetti" id="confetti"></canvas>
+
+<script>
+  let current = 0;
+  const pages = document.querySelectorAll('.page');
+  
+  function showPage(n) {
+    pages.forEach(p => p.classList.remove('active'));
+    pages[n].classList.add('active');
+    document.querySelector('.prev').style.display = n === 0 ? 'none' : 'block';
+    document.querySelector('.next').style.display = n === pages.length-1 ? 'none' : 'block';
+    if(n === pages.length-1) startConfetti();
+  }
+  
+  function nextPage() { if(current < pages.length-1) { current++; showPage(current); } }
+  function prevPage() { if(current > 0) { current--; showPage(current); } }
+  
+  document.addEventListener('keydown', e => {
+    if(e.key === 'ArrowRight') nextPage();
+    if(e.key === 'ArrowLeft') prevPage();
+  });
+
+  // Confetti for last page
+  function startConfetti() {
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    let pieces = Array.from({length:150}, () => ({
+      x: Math.random()*canvas.width, y: Math.random()*canvas.height,
+      r: Math.random()*6+2, d: Math.random()*150,
+      color: `hsl(${Math.random()*360},100%,50%)`
+    }));
+    function draw() {
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      pieces.forEach(p => {
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); 
+        ctx.fillStyle = p.color; ctx.fill();
+        p.y += Math.cos(p.d)+1; p.x += Math.sin(p.d);
+        if(p.y > canvas.height) p.y = 0;
+      });
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+  showPage(0);
+</script>
+</body>
+</html>
